@@ -2,10 +2,7 @@ package ex0121;
 
 import java.io.File;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 
@@ -19,25 +16,24 @@ public class DefineNewClass {
 		String[] classes = new String[3];
 		String line;
 		int i = 0;
-		
-		do {
-			System.out.print("Enter a class name: ");
-		} while(!(line = input.nextLine()).isEmpty()); {
-			System.out.print("Enter a class name: ");
-			classes[i] = line.trim();
+
+		while (!(line = input.nextLine()).isEmpty()) {
+			System.out.println("Enter a class name: ");
+			classes[i] = line;
+			System.out.println(line);
 			i++;
 		}
-		
-		if(classes.length < 3) {
+
+		if (classes.length < 3) {
 			System.exit(0);
 		}
-		
+
 		i = 0;
-		for(String arg : classes) {
+		for (String arg : classes) {
 			System.out.println("Argument " + i + " " + classes[i]);
 			i++;
 		}
-		
+
 //        System.out.println("Enter a superclass: ");
 //        createClass(pool, input.next().trim());
 //        
@@ -46,10 +42,6 @@ public class DefineNewClass {
 //        
 //        System.out.println("Enter the second subclass: ");
 //        createClass(pool, input.next().trim());
-
-        
-        
-        
 
 	}
 
