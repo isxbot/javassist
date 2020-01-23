@@ -19,7 +19,7 @@ public class SetSuperClass {
 	static String outputDir = workDir + SEP + "output";
 
 	public static void main(String[] args) {
-		List<String> argsAsList = new ArrayList(Arrays.asList(args));
+		List<String> argsAsList = new ArrayList<String>(Arrays.asList(args));
 		HashSet<String> commonSuperClasses = new HashSet<String>();
 		String selectedSuperAsString;
 
@@ -55,7 +55,7 @@ public class SetSuperClass {
 
 		try {
 			ClassPool pool = ClassPool.getDefault();
-			boolean useRuntimeClass = false;
+			boolean useRuntimeClass = true;
 
 			if (useRuntimeClass) {
 				insertClassPathRunTimeClass(pool, argsAsList);
@@ -78,26 +78,26 @@ public class SetSuperClass {
 	}
 
 	/*
-	 * Is this method needed?
+	 * Insert Class Path with Class loader.
 	 */
 	static void insertClassPathRunTimeClass(ClassPool pool, List<String> argsAsList)
 			throws NotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 		for (String arg : argsAsList) {
-			Class<?> subclass = Class.forName(arg);
+			Class<?> subclass = Class.forName("target." + arg);
 			Object subclassInstace = subclass.newInstance();
 			ClassClassPath classPath = new ClassClassPath(subclassInstace.getClass());
 			pool.insertClassPath(classPath);
-			System.out.println("[DBG] Insert classpath: " + classPath.toString());
+			System.out.println("[DBG] Insert classpath from insertClassPathRunTimeClass: " + classPath.toString());
 		}
 	}
 
 	/*
-	 * Insert ClassPath
+	 * Insert ClassPath as String
 	 */
 	static void insertClassPath(ClassPool pool) throws NotFoundException {
 		String strClassPath = workDir + SEP + "bin";
 		pool.insertClassPath(strClassPath);
-		System.out.println("[DBG] Insert classpath: " + strClassPath);
+		System.out.println("[DBG] Insert classpath from insertClassPath: " + strClassPath);
 	}
 
 	/*
