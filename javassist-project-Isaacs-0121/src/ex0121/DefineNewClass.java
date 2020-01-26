@@ -1,8 +1,11 @@
 package ex0121;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 
@@ -13,44 +16,60 @@ public class DefineNewClass {
 
 	public static void main(String[] args) {
 		ClassPool pool = ClassPool.getDefault();
-		String[] classes = new String[3];
-		String line;
-		int i = 0;
+		ArrayList<String> classes = new ArrayList<String>();
+		String selectedSuper = "";
 
-		while (!(line = input.nextLine()).isEmpty()) {
-			System.out.println("Enter a class name: ");
-			classes[i] = line;
-			System.out.println(line);
-			i++;
+		getInput(classes);
+
+		// TODO Check for common classes
+		for (String clazz : classes) {
+			if (clazz.startsWith("Common") && (clazz.length() > selectedSuper.length())) {
+				selectedSuper = clazz;
+			}
 		}
+		// TODO Find longest common class, or select first argument.
 
-		if (classes.length < 3) {
-			System.exit(0);
-		}
+		// TODO Set superclass
 
-		i = 0;
 		for (String arg : classes) {
-			System.out.println("Argument " + i + " " + classes[i]);
-			i++;
+			makeClass(pool, arg);
 		}
-
-//        System.out.println("Enter a superclass: ");
-//        createClass(pool, input.next().trim());
-//        
-//        System.out.println("Enter the first subclass: ");
-//        createClass(pool, input.next().trim());
-//        
-//        System.out.println("Enter the second subclass: ");
-//        createClass(pool, input.next().trim());
 
 	}
 
 	/*
 	 * Create new class from String.
 	 */
-	static CtClass createClass(ClassPool pool, String newClass) {
+	static CtClass makeClass(ClassPool pool, String newClass) {
 		CtClass cc = pool.makeClass(newClass);
+		try {
+			cc.writeFile(outputDir);
+		} catch (CannotCompileException | IOException e) {
+			System.out.println("Could not create output dir: " + e);
+		}
 		return cc;
+	}
+
+	/*
+	 * Take input from user, assign to ArrayList. Only accept 3 arguments.
+	 */
+	static void getInput(ArrayList<String> classes) {
+		String line;
+
+		for (int i = 0; i < 3; i++) {
+			System.out.print("Enter a class name: ");
+			line = input.nextLine();
+			if (!line.isEmpty()) {
+				classes.add(line);
+			}
+		}
+
+		if (classes.size() != 3) {
+			System.out.println("[WRN] Invalid Input");
+			classes.clear();
+			classes.trimToSize();
+			getInput(classes);
+		}
 	}
 
 }
