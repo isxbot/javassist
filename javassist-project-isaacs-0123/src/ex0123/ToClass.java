@@ -8,7 +8,6 @@ import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.NotFoundException;
-import target.CommonServiceA;
 
 public class ToClass {
 	static Scanner scanner = new Scanner(System.in);
@@ -35,7 +34,6 @@ public class ToClass {
 			}
 		}
 
-		// TODO Pass value to mod method.
 		process(input);
 	}
 
@@ -50,13 +48,13 @@ public class ToClass {
 			CtClass cc = cp.get("target." + clazz);
 			CtField[] fields = cc.getFields();
 			CtConstructor declaredConstructor = cc.getDeclaredConstructor(new CtClass[0]);
-//			String block2 = "{ " //
-//		               + "System.out.println(\"[TR] " + field + ": \" + " + field + "); }";
+			
 			for(CtField field : fields) {
-			declaredConstructor.insertAfter("{ System.out.println(\"[TR] " + field + "); }");
+			String block = "{ System.out.println(\"[TR] " + field.getName() + ": \" + " + field.getName() + "); }";
+			declaredConstructor.insertAfter(block);
 			}
 			Class<?> c = cc.toClass();
-			CommonServiceA cs = (CommonServiceA) c.newInstance();
+			c.newInstance();
 			
 		} catch (NotFoundException | CannotCompileException | InstantiationException | IllegalAccessException e) {
 
