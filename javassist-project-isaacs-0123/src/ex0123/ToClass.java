@@ -50,7 +50,7 @@ public class ToClass {
 			CtConstructor declaredConstructor = cc.getDeclaredConstructor(new CtClass[0]);
 			
 			for(CtField field : fields) {
-			String block = "{ System.out.println(\"[TR] " + field.getName() + ": \" + " + field.getName() + "); }";
+			String block = "{ System.out.println(\"" + field.getName() + ": \" + " + field.getName() + "); }";
 			declaredConstructor.insertAfter(block);
 			}
 			Class<?> c = cc.toClass();
