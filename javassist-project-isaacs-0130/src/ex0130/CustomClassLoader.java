@@ -45,7 +45,6 @@ public class CustomClassLoader extends ClassLoader {
 	 * Find a specified class and modify the bytecode.
 	 */
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
-	System.out.println(name);
 		try {
 			CtClass cc = pool.get(name);
 			CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);

@@ -1,9 +1,19 @@
+import java.lang.reflect.Field;
+
 public class ServiceApp {
     public static void main(String[] args) throws Exception {
     	ServiceApp sApp = new ServiceApp();
     	sApp.runService();
-    	System.out.println(Class.forName(args[0]).getField(args[1]).getName());
+    	displayFieldVal(sApp.getClass(), args[1]);
+    	// System.out.println(Class.forName(args[0]).getField(args[1]).getName());
     }
+    
+	public static void displayFieldVal(Class<?> var0, String field) throws Exception {
+		Field var1 = var0.getField(field);
+		String var2 = var1.getName();
+		Object var3 = var1.get(var0.newInstance());
+		System.out.println(" Field name: " + var2 + ", value: " + var3);
+	}
     
     void runService() {
     	System.out.println("Called runService.");
