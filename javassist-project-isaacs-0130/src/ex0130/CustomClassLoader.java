@@ -20,6 +20,7 @@ public class CustomClassLoader extends ClassLoader {
 
 	public static void main(String[] args) throws Throwable {
 		CustomClassLoader loader = new CustomClassLoader();
+		System.out.println(INPUT_DIR);
 
 		// Get class and field for modification.
 		loader.getInput(classAndField);
@@ -44,12 +45,13 @@ public class CustomClassLoader extends ClassLoader {
 	 * Find a specified class and modify the bytecode.
 	 */
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
+	System.out.println(name);
 		try {
 			CtClass cc = pool.get(name);
 			CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);
 			field.setModifiers(Modifier.PUBLIC);
+			System.out.println("ADDING FIELD");
 			cc.addField(field, CtField.Initializer.constant(0));
-
 			byte[] bArr = cc.toBytecode();
 			return defineClass(name, bArr, 0, bArr.length);
 		} catch (NotFoundException e) {
