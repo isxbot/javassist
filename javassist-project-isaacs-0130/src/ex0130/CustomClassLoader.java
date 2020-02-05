@@ -13,7 +13,7 @@ import javassist.NotFoundException;
 
 public class CustomClassLoader extends ClassLoader {
 	static String WORK_DIR = System.getProperty("user.dir");
-	static String INPUT_DIR = WORK_DIR + File.separator + "bin";
+	static String INPUT_DIR = WORK_DIR + File.separator + "classfiles";
 	Scanner input = new Scanner(System.in);
 	private ClassPool pool;
 	static String[] classAndField = new String[2];
@@ -25,7 +25,7 @@ public class CustomClassLoader extends ClassLoader {
 		loader.getInput(classAndField);
 
 		// Find class
-		Class<?> foundClass = loader.loadClass("target." + classAndField[0]);
+		Class<?> foundClass = loader.loadClass(classAndField[0]);
 	    foundClass.getDeclaredMethod("main", new Class[] { String[].class }). //
           invoke(null, new Object[] { args });
 
@@ -43,9 +43,7 @@ public class CustomClassLoader extends ClassLoader {
 	/*
 	 * Find a specified class and modify the bytecode.
 	 */
-	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
-		System.out.println("[DBG] In findClass");
 		try {
 			CtClass cc = pool.get(name);
 			CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);
