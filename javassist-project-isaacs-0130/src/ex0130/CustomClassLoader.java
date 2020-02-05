@@ -28,7 +28,7 @@ public class CustomClassLoader extends ClassLoader {
 		// Find class
 		Class<?> foundClass = loader.loadClass(classAndField[0]);
 	    foundClass.getDeclaredMethod("main", new Class[] { String[].class }). //
-          invoke(null, new Object[] { args });
+          invoke(null, new Object[] { classAndField });
 
 
 	}
@@ -50,8 +50,7 @@ public class CustomClassLoader extends ClassLoader {
 			CtClass cc = pool.get(name);
 			CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);
 			field.setModifiers(Modifier.PUBLIC);
-			System.out.println("ADDING FIELD");
-			cc.addField(field, CtField.Initializer.constant(0));
+			cc.addField(field);
 			byte[] bArr = cc.toBytecode();
 			return defineClass(name, bArr, 0, bArr.length);
 		} catch (NotFoundException e) {
