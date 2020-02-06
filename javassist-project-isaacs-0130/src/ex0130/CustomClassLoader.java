@@ -17,6 +17,11 @@ public class CustomClassLoader extends ClassLoader {
 	Scanner input = new Scanner(System.in);
 	private ClassPool pool;
 	static String[] classAndField = new String[2];
+	
+	public void CustcomClassLoader() throws NotFoundException {
+		pool = new ClassPool();
+		pool.insertClassPath(INPUT_DIR);
+	}
 
 	public static void main(String[] args) throws Throwable {
 		CustomClassLoader loader = new CustomClassLoader();
@@ -75,5 +80,4 @@ public class CustomClassLoader extends ClassLoader {
 			}
 		}
 	}
-
 }
