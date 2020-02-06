@@ -12,10 +12,10 @@ public class ServiceApp {
 		Field var1 = var0.getField(field);
 		String var2 = var1.getName();
 		Object var3 = var1.get(var0.newInstance());
-		System.out.println(" Field name: " + var2 + ", value: " + var3);
+		System.out.println("Field name: " + var2 + ", value: " + var3);
 	}
     
     void runService() {
-    	System.out.println("Called runService.");
+    	System.out.println("Called runService...");
     }
 }

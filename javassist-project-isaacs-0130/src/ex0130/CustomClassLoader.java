@@ -20,19 +20,18 @@ public class CustomClassLoader extends ClassLoader {
 
 	public static void main(String[] args) throws Throwable {
 		CustomClassLoader loader = new CustomClassLoader();
-		System.out.println(INPUT_DIR);
 
 		// Get class and field for modification.
+		System.out.println("Enter ComponentApp and f1 or ServiceApp and f2.");
 		loader.getInput(classAndField);
 
 		// Find class
 		Class<?> foundClass = loader.loadClass(classAndField[0]);
-	    foundClass.getDeclaredMethod("main", new Class[] { String[].class }). //
-          invoke(null, new Object[] { classAndField });
-
+		foundClass.getDeclaredMethod("main", new Class[] { String[].class }). //
+				invoke(null, new Object[] { classAndField });
 
 	}
-	
+
 	/*
 	 * Constructor
 	 */
@@ -47,9 +46,11 @@ public class CustomClassLoader extends ClassLoader {
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
 		try {
 			CtClass cc = pool.get(name);
-			CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);
-			field.setModifiers(Modifier.PUBLIC);
-			cc.addField(field);
+			if (name.equals("ComponentApp") | name.equals("ServiceApp")) {
+				CtField field = new CtField(CtClass.doubleType, classAndField[1], cc);
+				field.setModifiers(Modifier.PUBLIC);
+				cc.addField(field);
+			}
 			byte[] bArr = cc.toBytecode();
 			return defineClass(name, bArr, 0, bArr.length);
 		} catch (NotFoundException e) {
