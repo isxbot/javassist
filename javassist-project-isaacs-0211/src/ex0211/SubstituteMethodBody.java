@@ -33,10 +33,6 @@ public class SubstituteMethodBody extends ClassLoader {
 		System.out.println("[DBG] Class Paths: " + pool.toString());
 	}
 
-	public enum validClass {
-		ComponentApp, ServiceApp;
-	}
-
 	/*
 	 * Finds a specified class, modify parameters.
 	 */
@@ -44,7 +40,7 @@ public class SubstituteMethodBody extends ClassLoader {
 		CtClass cc = null;
 		try {
 			cc = pool.get(name);
-			if(cc.isFrozen()) {
+			if (cc.isFrozen()) {
 				System.err.println("[WRN] The method " + methodName + " has been modified previously!");
 			}
 			System.err.println(cc.isFrozen());
