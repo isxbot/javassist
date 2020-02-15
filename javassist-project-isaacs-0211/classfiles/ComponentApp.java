@@ -1,5 +1,3 @@
-package target;
-
 public class ComponentApp {
 	int x = 10, y = 10;
 	
