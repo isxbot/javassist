@@ -40,7 +40,7 @@ public class SubstituteMethodBody extends ClassLoader {
 		CtClass cc = null;
 		try {
 			cc = pool.get(name);
-			if (cc.isFrozen()) {
+			if (cc.isModified()) {
 				System.err.println("[WRN] The method " + methodName + " has been modified previously!");
 			}
 			System.err.println(cc.isFrozen());
