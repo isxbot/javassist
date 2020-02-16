@@ -1,4 +1,4 @@
-package util;
+ package util;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public class UtilMenu {
    static Scanner scanner = null;
 
    public static void showMenuOptions() {
-      System.out.println("=============================================");
+      System.out.println("\n=============================================");
       System.out.println("Simple Bytecode Engineering Example Program");
       System.out.println("=============================================");
       System.out.println("\tMenu Options:");

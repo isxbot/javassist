@@ -3,6 +3,7 @@ package ex0211;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 
 import javassist.CannotCompileException;
 import javassist.ClassClassPath;
@@ -43,7 +44,6 @@ public class SubstituteMethodBody extends ClassLoader {
 			if (cc.isModified()) {
 				System.err.println("[WRN] The method " + methodName + " has been modified previously!");
 			}
-			System.err.println(cc.isFrozen());
 			cc.instrument(new ExprEditor() {
 				public void edit(MethodCall call) throws CannotCompileException {
 					String className = call.getClassName();
@@ -98,7 +98,7 @@ public class SubstituteMethodBody extends ClassLoader {
 			arguments = UtilMenu.getArguments();
 			if (arguments.length != 4) {
 				System.err.println("[WRN] Invalid input size!!");
-				System.exit(0);
+				return;
 			}
 		}
 
@@ -112,11 +112,21 @@ public class SubstituteMethodBody extends ClassLoader {
 	 * Main method
 	 */
 	public static void main(String[] args) throws Throwable {
-		getInput();
-		SubstituteMethodBody s = new SubstituteMethodBody();
-		Class<?> c = s.loadClass(className);
-		Method mainMethod = c.getDeclaredMethod("main", new Class[] { String[].class });
-		mainMethod.invoke(null, new Object[] { args });
+		HashSet<String> modifiedMethods = new HashSet<>();
+
+		while (true) {
+			getInput();
+			if (className == null) {
+				continue;
+			}
+			if (!modifiedMethods.add(methodName)) {
+				System.err.println("[WRN] This method was modified previously!");
+			}
+			SubstituteMethodBody s = new SubstituteMethodBody();
+			Class<?> c = s.loadClass(className);
+			Method mainMethod = c.getDeclaredMethod("main", new Class[] { String[].class });
+			mainMethod.invoke(null, new Object[] { args });
+		}
 
 	}
 
